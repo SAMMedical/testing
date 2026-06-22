@@ -1,3 +1,38 @@
-ID	CUSTOMER	KATEGORI	MERK	SISTEM	MULAI	AKHIR	DURASI
-123	ARICANTI	HEMATOLOGI	MITIC	KSO	2022	2023	1 TAHUN
-456	KSIH IBU	HEMATOLOGI	MITIC	KSO	2022	2023	2 TAHUN
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi SAM</title>
+    <style>
+        /* Menghilangkan margin bawaan browser dan membuat layar penuh */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Mencegah scrollbar ganda (dari parent dan iframe) */
+            background-color: #f8fafc; /* Warna background cadangan saat loading */
+        }
+
+        /* Membuat iframe penuh satu layar */
+        .app-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Iframe yang mengarah ke link Google Apps Script Anda -->
+    <iframe 
+        class="app-iframe" 
+        src="https://script.google.com/macros/s/AKfycbyzxlgrwZg9lmiLLx7nO1UXDFXVdCbg7RBLZm5L1bsjXEGVYD49RwwpETLN1PLkDSpCKg/exec" 
+        allow="camera; microphone; fullscreen; display-capture; geolocation"
+        allowfullscreen>
+    </iframe>
+
+</body>
+</html>
