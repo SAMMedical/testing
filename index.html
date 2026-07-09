@@ -603,27 +603,23 @@
 
             appData.categories.forEach(cat => {
                 const btnId = `btn-${cat.id}`;
-                const frameId = `frame-${cat.id}`;
                 const iconHtml = getIcon(cat.icon); 
                 const activeClass = (activeId === btnId) ? 'active' : '';
 
-                // FIX: Menambahkan argumen nama & url ke loadApp agar Bar Navigasi bisa mendeteksi target
-                navHtml += `<a onclick="loadApp(this, '${frameId}', '${cat.nama}', '${cat.url}')" onmouseenter="preloadIframe('${frameId}')" ontouchstart="preloadIframe('${frameId}')" id="${btnId}" class="${activeClass}">${iconHtml} ${cat.nama}</a>`;
+                // Buka link di tab baru, preloading iframe dihapus
+                navHtml += `<a onclick="openApp('${cat.url}', '${cat.nama}')" id="${btnId}" class="${activeClass}" style="cursor:pointer;">${iconHtml} ${cat.nama}</a>`;
                 
                 gridHtml += `
-                    <div class="menu-card" onclick="triggerMenuClick('${btnId}')" onmouseenter="preloadIframe('${frameId}')" ontouchstart="preloadIframe('${frameId}')">
+                    <div class="menu-card" onclick="openApp('${cat.url}', '${cat.nama}')">
                         <div class="menu-icon">${iconHtml}</div>
                         <div class="menu-title">${cat.nama}</div>
                     </div>`;
-                
-                const frameActiveClass = (activeId === btnId) ? 'active' : '';
-                framesHtml += `<iframe id="${frameId}" class="app-frame ${frameActiveClass}" data-src="${cat.url}" allow="geolocation; camera; microphone; fullscreen; payment; display-capture" allowfullscreen></iframe>`;
             });
 
             navHtml += panelBtnHtml;
             navLinks.innerHTML = navHtml;
             grid.innerHTML = gridHtml;
-            frames.innerHTML = framesHtml;
+            frames.innerHTML = ''; // iframe kita bersihkan, hanya akan dibuat jika URL kosong
 
             renderIcons(); 
         }
@@ -654,63 +650,29 @@
         }
 
         // --- CORE NAVIGATION ---
-        function preloadIframe(frameId) {
-            const frame = document.getElementById(frameId);
-            if (!frame) return;
-            const src = frame.dataset.src;
-            if (src === '#' || src === '') return;
-            
-            if (!frame.getAttribute('src')) {
-                frame.dataset.loading = 'true';
-                frame.onload = function() {
-                    frame.dataset.loading = 'false';
-                    if (frame.classList.contains('active')) document.getElementById('loader').style.display = 'none';
-                };
-                frame.src = src; 
-            }
-        }
-
-        // FIX: Modifikasi fungsi LoadApp untuk menangani Iframe Header Bar
-        function loadApp(element, frameId, appName = 'Aplikasi', appUrl = '#') {
-            const links = document.querySelectorAll('.nav-links a');
-            links.forEach(link => link.classList.remove('active'));
-            element.classList.add('active');
-
-            document.getElementById('homeView').classList.add('hidden');
-            closeOverlayPanel(); 
-            document.getElementById('appView').classList.add('active');
-            
-            // Setel Data di Header Iframe Baru
-            document.getElementById('iframe-title').innerText = appName;
-            const extLink = document.getElementById('iframe-external-link');
-            if(appUrl && appUrl !== '#') {
-                extLink.href = appUrl;
-                extLink.style.display = 'inline-flex';
-            } else {
-                extLink.style.display = 'none';
-            }
-
-            const allFrames = document.querySelectorAll('.app-frame');
-            allFrames.forEach(frame => frame.classList.remove('active'));
-
-            const targetFrame = document.getElementById(frameId);
-            const loader = document.getElementById('loader');
-
-            if (targetFrame) {
-                const targetSrc = targetFrame.dataset.src;
-                if (targetSrc === "#" || targetSrc === "") {
-                    loader.style.display = 'none';
-                    if (!targetFrame.hasAttribute('srcdoc')) {
-                        targetFrame.srcdoc = `<div style="display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; font-family:-apple-system, sans-serif; color:#64748b; background-color:#f8fafc; margin:0;"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="2" style="margin-bottom: 15px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg><h2 style="margin:0 0 10px 0; color:#334155; font-size:24px;">Modul Belum Tersedia</h2><p style="margin:0; font-size:15px;">URL Aplikasi belum diatur.</p></div>`;
-                    }
-                } else {
-                    preloadIframe(frameId);
-                    if (targetFrame.dataset.loading === 'true') loader.style.display = 'block';
-                    else loader.style.display = 'none';
-                }
-                targetFrame.classList.add('active');
-            }
+        function openApp(appUrl, appName = 'Aplikasi') {
             closeMobileMenu();
+
+            if (appUrl && appUrl !== '#' && appUrl.trim() !== '') {
+                // OTOMATIS BUKA DI TAB BARU JIKA URL VALID
+                window.open(appUrl, '_blank');
+            } else {
+                // JIKA URL KOSONG, TAMPILKAN FALLBACK "MODUL BELUM TERSEDIA"
+                const links = document.querySelectorAll('.nav-links a');
+                links.forEach(link => link.classList.remove('active'));
+
+                document.getElementById('homeView').classList.add('hidden');
+                closeOverlayPanel(); 
+                document.getElementById('appView').classList.add('active');
+                
+                document.getElementById('iframe-title').innerText = appName;
+                document.getElementById('iframe-external-link').style.display = 'none';
+                document.getElementById('loader').style.display = 'none';
+
+                // Render satu halaman peringatan saja
+                const framesContainer = document.getElementById('dynamic-iframes');
+                framesContainer.innerHTML = `<iframe class="app-frame active" srcdoc="<div style='display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; font-family:-apple-system, sans-serif; color:#64748b; background-color:#f8fafc; margin:0;'><svg width='64' height='64' viewBox='0 0 24 24' fill='none' stroke='#cbd5e1' stroke-width='2' style='margin-bottom: 15px;'><circle cx='12' cy='12' r='10'></circle><line x1='12' y1='8' x2='12' y2='12'></line><line x1='12' y1='16' x2='12.01' y2='16'></line></svg><h2 style='margin:0 0 10px 0; color:#334155; font-size:24px;'>Modul Belum Tersedia</h2><p style='margin:0; font-size:15px;'>URL Aplikasi belum diatur di panel admin.</p></div>"></iframe>`;
+            }
         }
 
         function goHome() {
@@ -723,9 +685,11 @@
             closeOverlayPanel();
             closeMobileMenu();
             document.body.classList.remove('header-hidden');
+            
+            // Bersihkan memori Iframe saat kembali ke Home
+            document.getElementById('dynamic-iframes').innerHTML = '';
         }
 
-        function triggerMenuClick(id) { document.getElementById(id).click(); }
         function toggleHeader() { document.body.classList.toggle('header-hidden'); }
         function toggleMobileMenu() { 
             const nav = document.getElementById('dynamic-nav-links');
