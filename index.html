@@ -42,7 +42,7 @@
         .nav-links a:hover { background-color: #f1f5f9; color: var(--text-main); }
         .nav-links a.active { background-color: var(--primary-color); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); }
         .nav-links a.panel-btn { background-color: var(--text-main); color: white; } 
-        .nav-links a svg { width: 18px; height: 18px; flex-shrink: 0; } /* Ukuran icon Lucide di navbar */
+        .nav-links a svg { width: 18px; height: 18px; flex-shrink: 0; }
 
         .header-toggle-btn { background: none; border: none; cursor: pointer; color: var(--text-muted); padding: 8px; border-radius: 50%; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
         .header-toggle-btn:hover { background-color: #f1f5f9; color: var(--primary-color); }
@@ -84,7 +84,7 @@
         .menu-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px -5px rgba(37, 99, 235, 0.15); border-color: #bfdbfe; }
         .menu-icon { width: 64px; height: 64px; background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: var(--primary-color); margin-bottom: 15px; transition: transform 0.2s; }
         .menu-card:hover .menu-icon { transform: scale(1.1); }
-        .menu-icon svg { width: 32px; height: 32px; } /* Ukuran icon Lucide di grid */
+        .menu-icon svg { width: 32px; height: 32px; }
         .menu-title { font-weight: 700; font-size: 15px; color: var(--text-main); letter-spacing: -0.3px;}
 
         /* --- SKELETON LOADING --- */
@@ -95,11 +95,18 @@
         .skeleton-text { height: 16px; width: 70%; border-radius: 4px; }
         .skeleton-slide { width: 100%; height: 100%; position: absolute; top:0; left:0; }
 
-        /* --- MULTI-IFRAME CONTAINER --- */
-        .iframe-container { position: fixed; top: var(--header-height); left: 0; width: 100%; height: calc(100% - var(--header-height)); background-color: #fff; transition: top var(--transition-speed) ease, height var(--transition-speed) ease; display: none; }
-        .iframe-container.active { display: block; }
-        #dynamic-iframes { width: 100%; height: 100%; }
-        .app-frame { width: 100%; height: 100%; border: none; display: none; }
+        /* --- MULTI-IFRAME CONTAINER & HEADER (BARU) --- */
+        .iframe-container { position: fixed; top: var(--header-height); left: 0; width: 100%; height: calc(100% - var(--header-height)); background-color: #fff; transition: top var(--transition-speed) ease, height var(--transition-speed) ease; display: none; flex-direction: column; }
+        .iframe-container.active { display: flex; }
+        
+        .iframe-header { height: 46px; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; flex-shrink: 0; }
+        .iframe-header h3 { margin: 0; font-size: 14px; font-weight: 700; color: var(--text-main); }
+        .iframe-external-link { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; font-size: 12px; font-weight: 600; color: var(--primary-color); background: #eff6ff; padding: 6px 14px; border-radius: 50px; transition: 0.2s; border: 1px solid #bfdbfe; }
+        .iframe-external-link:hover { background: #dbeafe; transform: translateY(-1px); }
+        .iframe-external-link svg { width: 14px; height: 14px; }
+
+        #dynamic-iframes { width: 100%; flex-grow: 1; position: relative; }
+        .app-frame { width: 100%; height: 100%; border: none; display: none; position: absolute; top:0; left:0; }
         .app-frame.active { display: block; }
 
         /* --- FULL PAGE OVERLAY (LOGIN & ADMIN) --- */
@@ -158,7 +165,7 @@
         .admin-table tbody tr:last-child td { border-bottom: none; }
         .img-preview { width: 80px; height: 50px; object-fit: cover; border-radius: 8px; border: 1px solid #e2e8f0; }
         .icon-cell { display: inline-flex; align-items: center; justify-content: center; color: var(--primary-color); }
-        .icon-cell svg { width: 22px; height: 22px; } /* Preview icon Lucide di tabel admin */
+        .icon-cell svg { width: 22px; height: 22px; } 
 
         /* Modal CRUD */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(5px); z-index: 3000; display: none; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.3s; }
@@ -181,9 +188,8 @@
             .logo { font-size: 20px; }
             .nav-actions { border-left: none; margin-left: auto; padding-left: 0;}
             
-            /* FIX: MOBILE MENU KLIKABLE & STABIL & SCROLLABLE */
             .nav-links { 
-                position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh; /* Menggunakan dvh untuk mobile */
+                position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh; 
                 background-color: rgba(255, 255, 255, 0.98); backdrop-filter: blur(15px); 
                 flex-direction: column; align-items: center; justify-content: flex-start; gap: 15px; 
                 opacity: 0; visibility: hidden; pointer-events: none; 
@@ -209,7 +215,6 @@
             .menu-icon svg { width: 24px; height: 24px; }
             .menu-title { font-size: 13px; }
             
-            /* Responsive Overlay Panels */
             .overlay-close-btn { top: 15px; right: 15px; width: 36px; height: 36px; background: rgba(255,255,255,0.2);}
             .fullpage-overlay { padding: 15px; }
             .login-box { padding: 30px 20px; border-radius: 20px;}
@@ -278,6 +283,15 @@
 
     <!-- Area Aplikasi Multi-Iframe -->
     <div id="appView" class="iframe-container">
+        <!-- HEADER IFRAME BARU: Tombol Darurat Buka di Tab Baru -->
+        <div class="iframe-header" id="iframeHeader">
+            <h3 id="iframe-title">Memuat...</h3>
+            <a href="#" id="iframe-external-link" class="iframe-external-link" target="_blank" title="Buka jika halaman menolak dimuat">
+                Buka di Tab Baru 
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </a>
+        </div>
+        
         <div class="loader" id="loader"></div>
         <div id="dynamic-iframes"></div>
     </div>
@@ -431,106 +445,90 @@
 
     <script>
         // ==========================================
-        // MOCK API - MENGGUNAKAN LOCALSTORAGE
-        // Ini menggantikan peran Google Apps Script
+        // MOCK API - PENGAMANAN & FALLBACK
         // ==========================================
+        // Fix: Cek dengan ketat agar kode tidak mengganggu AppScript asli jika di-deploy ke server Google.
+        const isGasEnvironment = (typeof google !== 'undefined' && typeof google.script !== 'undefined');
         
-        // Setup data awal jika LocalStorage kosong
-        const defaultCategories = [
-            {id: 'K01', nama: 'Gudang', icon: 'warehouse', url: 'https://script.google.com/macros/s/AKfycbwehJLbNbbkMTchK1bMZuOfq6NikGDOiGD1Ekivd2bT1JrKiNJ2HmD4Z21sQ2S0dqvs/exec?embedded=true'},
-            {id: 'K02', nama: 'Faktur', icon: 'receipt-text', url: '#'},
-            {id: 'K03', nama: 'Surat', icon: 'notebook-pen', url: '#'},
-            {id: 'K04', nama: 'Kiriman', icon: 'truck', url: '#'}, // van diganti ke truck (lucide valid)
-            {id: 'K05', nama: 'HRIS', icon: 'grip', url: '#'},
-            {id: 'K06', nama: 'Brosur', icon: 'files', url: '#'},
-            {id: 'K07', nama: 'HPP', icon: 'sprout', url: '#'},
-            {id: 'K08', nama: 'Keuangan', icon: 'badge-dollar-sign', url: '#'},
-            {id: 'K09', nama: 'Teknisi', icon: 'wrench', url: '#'},
-            {id: 'K10', nama: 'Presensi', icon: 'square-user', url: '#'},
-            {id: 'K11', nama: 'Slip Gaji', icon: 'signature', url: '#'},
-            {id: 'K12', nama: 'Sales', icon: 'chart-no-axes-combined', url: '#'}
-        ];
+        if (!isGasEnvironment) {
+            console.log("🛠️ Menjalankan mode LOKAL dengan LocalStorage (Mock API)");
+            const defaultCategories = [
+                {id: 'K01', nama: 'Gudang', icon: 'warehouse', url: 'https://script.google.com/macros/s/AKfycbwehJLbNbbkMTchK1bMZuOfq6NikGDOiGD1Ekivd2bT1JrKiNJ2HmD4Z21sQ2S0dqvs/exec?embedded=true'},
+                {id: 'K02', nama: 'Faktur', icon: 'receipt-text', url: '#'},
+                {id: 'K03', nama: 'Surat', icon: 'notebook-pen', url: '#'},
+                {id: 'K04', nama: 'Kiriman', icon: 'truck', url: '#'}, 
+                {id: 'K05', nama: 'HRIS', icon: 'grip', url: '#'}
+            ];
 
-        const defaultSliders = [
-            {id: 'S01', image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80', title: 'Selamat Datang di SAMIT', subtitle: 'Sistem Administrasi Terpadu'},
-            {id: 'S02', image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80', title: 'Kelola Bisnis Lebih Mudah', subtitle: 'Akses data dalam satu pintu'}
-        ];
+            const defaultSliders = [
+                {id: 'S01', image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80', title: 'Selamat Datang di SAMIT', subtitle: 'Sistem Administrasi Terpadu'}
+            ];
 
-        if (!localStorage.getItem('samit_categories')) {
-            localStorage.setItem('samit_categories', JSON.stringify(defaultCategories));
-        }
-        if (!localStorage.getItem('samit_sliders')) {
-            localStorage.setItem('samit_sliders', JSON.stringify(defaultSliders));
-        }
+            if (!localStorage.getItem('samit_categories')) localStorage.setItem('samit_categories', JSON.stringify(defaultCategories));
+            if (!localStorage.getItem('samit_sliders')) localStorage.setItem('samit_sliders', JSON.stringify(defaultSliders));
 
-        window.google = {
-            script: {
-                run: {
-                    withSuccessHandler: function(callback) {
-                        return {
-                            getAppData: function() {
-                                setTimeout(() => {
-                                    const cats = JSON.parse(localStorage.getItem('samit_categories')) || [];
-                                    const slids = JSON.parse(localStorage.getItem('samit_sliders')) || [];
-                                    callback({ categories: cats, sliders: slids });
-                                }, 500);
-                            },
-                            loginUser: function(u, p) { 
-                                setTimeout(() => {
-                                    if (u === 'admin' && p === 'admin123') {
-                                        callback({success: true, message: 'Login Berhasil'});
-                                    } else {
-                                        callback({success: false, message: 'Username atau Password salah!'});
-                                    }
-                                }, 600); 
-                            },
-                            saveCategory: function(id, nama, icon, url) { 
-                                setTimeout(() => {
-                                    let cats = JSON.parse(localStorage.getItem('samit_categories')) || [];
-                                    if (id) {
-                                        const idx = cats.findIndex(c => c.id === id);
-                                        if(idx > -1) cats[idx] = {id, nama, icon, url};
-                                    } else {
-                                        cats.push({id: 'K' + new Date().getTime(), nama, icon: icon || 'grip', url: url || '#'});
-                                    }
-                                    localStorage.setItem('samit_categories', JSON.stringify(cats));
-                                    callback({success: true, message: 'Kategori berhasil disimpan!'});
-                                }, 600); 
-                            },
-                            deleteCategory: function(id) { 
-                                setTimeout(() => {
-                                    let cats = JSON.parse(localStorage.getItem('samit_categories')) || [];
-                                    cats = cats.filter(c => c.id !== id);
-                                    localStorage.setItem('samit_categories', JSON.stringify(cats));
-                                    callback({success: true, message: 'Kategori dihapus!'});
-                                }, 500); 
-                            },
-                            saveSlider: function(id, image, title, subtitle) { 
-                                setTimeout(() => {
-                                    let slids = JSON.parse(localStorage.getItem('samit_sliders')) || [];
-                                    if (id) {
-                                        const idx = slids.findIndex(s => s.id === id);
-                                        if(idx > -1) slids[idx] = {id, image, title, subtitle};
-                                    } else {
-                                        slids.push({id: 'S' + new Date().getTime(), image, title, subtitle});
-                                    }
-                                    localStorage.setItem('samit_sliders', JSON.stringify(slids));
-                                    callback({success: true, message: 'Slider berhasil disimpan!'});
-                                }, 600); 
-                            },
-                            deleteSlider: function(id) { 
-                                setTimeout(() => {
-                                    let slids = JSON.parse(localStorage.getItem('samit_sliders')) || [];
-                                    slids = slids.filter(s => s.id !== id);
-                                    localStorage.setItem('samit_sliders', JSON.stringify(slids));
-                                    callback({success: true, message: 'Slider dihapus!'});
-                                }, 500); 
-                            }
-                        };
+            window.google = {
+                script: {
+                    run: {
+                        withSuccessHandler: function(callback) {
+                            return {
+                                getAppData: function() {
+                                    setTimeout(() => {
+                                        const cats = JSON.parse(localStorage.getItem('samit_categories')) || [];
+                                        const slids = JSON.parse(localStorage.getItem('samit_sliders')) || [];
+                                        callback({ categories: cats, sliders: slids });
+                                    }, 500);
+                                },
+                                loginUser: function(u, p) { 
+                                    setTimeout(() => {
+                                        if (u === 'admin' && p === 'admin123') callback({success: true, message: 'Login Berhasil'});
+                                        else callback({success: false, message: 'Username atau Password salah!'});
+                                    }, 600); 
+                                },
+                                saveCategory: function(id, nama, icon, url) { 
+                                    setTimeout(() => {
+                                        let cats = JSON.parse(localStorage.getItem('samit_categories')) || [];
+                                        if (id) {
+                                            const idx = cats.findIndex(c => c.id === id);
+                                            if(idx > -1) cats[idx] = {id, nama, icon, url};
+                                        } else { cats.push({id: 'K' + new Date().getTime(), nama, icon: icon || 'grip', url: url || '#'}); }
+                                        localStorage.setItem('samit_categories', JSON.stringify(cats));
+                                        callback({success: true, message: 'Kategori berhasil disimpan!'});
+                                    }, 600); 
+                                },
+                                deleteCategory: function(id) { 
+                                    setTimeout(() => {
+                                        let cats = JSON.parse(localStorage.getItem('samit_categories')) || [];
+                                        cats = cats.filter(c => c.id !== id);
+                                        localStorage.setItem('samit_categories', JSON.stringify(cats));
+                                        callback({success: true, message: 'Kategori dihapus!'});
+                                    }, 500); 
+                                },
+                                saveSlider: function(id, image, title, subtitle) { 
+                                    setTimeout(() => {
+                                        let slids = JSON.parse(localStorage.getItem('samit_sliders')) || [];
+                                        if (id) {
+                                            const idx = slids.findIndex(s => s.id === id);
+                                            if(idx > -1) slids[idx] = {id, image, title, subtitle};
+                                        } else { slids.push({id: 'S' + new Date().getTime(), image, title, subtitle}); }
+                                        localStorage.setItem('samit_sliders', JSON.stringify(slids));
+                                        callback({success: true, message: 'Slider berhasil disimpan!'});
+                                    }, 600); 
+                                },
+                                deleteSlider: function(id) { 
+                                    setTimeout(() => {
+                                        let slids = JSON.parse(localStorage.getItem('samit_sliders')) || [];
+                                        slids = slids.filter(s => s.id !== id);
+                                        localStorage.setItem('samit_sliders', JSON.stringify(slids));
+                                        callback({success: true, message: 'Slider dihapus!'});
+                                    }, 500); 
+                                }
+                            };
+                        }
                     }
                 }
-            }
-        };
+            };
+        }
 
         // Global State
         let appData = { categories: [], sliders: [] };
@@ -557,7 +555,6 @@
                     el.setAttribute('data-lucide', ICON_ALIASES[original] || 'grip');
                 });
                 lucide.createIcons();
-
                 const stillFailed = document.querySelectorAll('i[data-lucide]');
                 if (stillFailed.length) {
                     stillFailed.forEach(el => el.setAttribute('data-lucide', 'grip'));
@@ -566,21 +563,16 @@
             }
         }
 
-        // INIT SAAT HALAMAN DIBUKA
         document.addEventListener("DOMContentLoaded", function() {
             generateCaptcha();
             fetchData();
         });
 
-        // 1. Fetch Data Utama
         function fetchData() {
             google.script.run.withSuccessHandler(function(data) {
                 appData = data;
-                
-                // Matikan Skeleton
                 document.getElementById('skeleton-grid').style.display = 'none';
                 document.getElementById('dynamic-grid').style.display = 'grid';
-                
                 renderUI();
                 renderSliders();
                 if(isLoggedIn) {
@@ -599,9 +591,7 @@
             let activeId = 'btn-home'; 
             if (navLinks) {
                 const currentActive = navLinks.querySelector('a.active');
-                if (currentActive) {
-                    activeId = currentActive.id;
-                }
+                if (currentActive) activeId = currentActive.id;
             }
 
             const homeBtnHtml = `<a onclick="goHome()" class="${activeId === 'btn-home' ? 'active' : ''}" id="btn-home"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>Home</a>`;
@@ -615,10 +605,10 @@
                 const btnId = `btn-${cat.id}`;
                 const frameId = `frame-${cat.id}`;
                 const iconHtml = getIcon(cat.icon); 
-                
                 const activeClass = (activeId === btnId) ? 'active' : '';
 
-                navHtml += `<a onclick="loadApp(this, '${frameId}')" onmouseenter="preloadIframe('${frameId}')" ontouchstart="preloadIframe('${frameId}')" id="${btnId}" class="${activeClass}">${iconHtml} ${cat.nama}</a>`;
+                // FIX: Menambahkan argumen nama & url ke loadApp agar Bar Navigasi bisa mendeteksi target
+                navHtml += `<a onclick="loadApp(this, '${frameId}', '${cat.nama}', '${cat.url}')" onmouseenter="preloadIframe('${frameId}')" ontouchstart="preloadIframe('${frameId}')" id="${btnId}" class="${activeClass}">${iconHtml} ${cat.nama}</a>`;
                 
                 gridHtml += `
                     <div class="menu-card" onclick="triggerMenuClick('${btnId}')" onmouseenter="preloadIframe('${frameId}')" ontouchstart="preloadIframe('${frameId}')">
@@ -638,35 +628,24 @@
             renderIcons(); 
         }
 
-        // 3. Render Slider Banner
         function renderSliders() {
             const container = document.getElementById('dynamic-slider');
             const wrap = document.getElementById('slider-wrap');
             if(!container) return;
-            
-            if(appData.sliders.length === 0) {
-                wrap.style.display = 'none';
-                return;
-            } else {
-                wrap.style.display = 'block';
-            }
+            if(appData.sliders.length === 0) { wrap.style.display = 'none'; return; } 
+            else { wrap.style.display = 'block'; }
 
             let html = '';
             let dotsHtml = '<div class="dots-container">';
-            
             appData.sliders.forEach((s, idx) => {
                 html += `
                 <div class="slide fade" style="display: ${idx === 0 ? 'block' : 'none'};">
                     <img src="${s.image}" alt="Slider">
-                    <div class="slide-content">
-                        <h2>${s.title}</h2>
-                        <p>${s.subtitle}</p>
-                    </div>
+                    <div class="slide-content"><h2>${s.title}</h2><p>${s.subtitle}</p></div>
                 </div>`;
                 dotsHtml += `<span class="dot ${idx === 0 ? 'active' : ''}" onclick="currentSlide(${idx + 1})"></span>`;
             });
             dotsHtml += '</div>';
-            
             container.innerHTML = html + dotsHtml;
             
             slideIndex = 0;
@@ -678,7 +657,6 @@
         function preloadIframe(frameId) {
             const frame = document.getElementById(frameId);
             if (!frame) return;
-            
             const src = frame.dataset.src;
             if (src === '#' || src === '') return;
             
@@ -686,15 +664,14 @@
                 frame.dataset.loading = 'true';
                 frame.onload = function() {
                     frame.dataset.loading = 'false';
-                    if (frame.classList.contains('active')) {
-                        document.getElementById('loader').style.display = 'none';
-                    }
+                    if (frame.classList.contains('active')) document.getElementById('loader').style.display = 'none';
                 };
                 frame.src = src; 
             }
         }
 
-        function loadApp(element, frameId) {
+        // FIX: Modifikasi fungsi LoadApp untuk menangani Iframe Header Bar
+        function loadApp(element, frameId, appName = 'Aplikasi', appUrl = '#') {
             const links = document.querySelectorAll('.nav-links a');
             links.forEach(link => link.classList.remove('active'));
             element.classList.add('active');
@@ -703,6 +680,16 @@
             closeOverlayPanel(); 
             document.getElementById('appView').classList.add('active');
             
+            // Setel Data di Header Iframe Baru
+            document.getElementById('iframe-title').innerText = appName;
+            const extLink = document.getElementById('iframe-external-link');
+            if(appUrl && appUrl !== '#') {
+                extLink.href = appUrl;
+                extLink.style.display = 'inline-flex';
+            } else {
+                extLink.style.display = 'none';
+            }
+
             const allFrames = document.querySelectorAll('.app-frame');
             allFrames.forEach(frame => frame.classList.remove('active'));
 
@@ -714,15 +701,12 @@
                 if (targetSrc === "#" || targetSrc === "") {
                     loader.style.display = 'none';
                     if (!targetFrame.hasAttribute('srcdoc')) {
-                        targetFrame.srcdoc = `<div style="display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; font-family:-apple-system, sans-serif; color:#64748b; background-color:#f8fafc; margin:0;"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="2" style="margin-bottom: 15px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg><h2 style="margin:0 0 10px 0; color:#334155; font-size:24px;">Modul Belum Tersedia</h2><p style="margin:0; font-size:15px;">Fitur ini masih dalam tahap pengembangan.</p></div>`;
+                        targetFrame.srcdoc = `<div style="display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; font-family:-apple-system, sans-serif; color:#64748b; background-color:#f8fafc; margin:0;"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="2" style="margin-bottom: 15px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg><h2 style="margin:0 0 10px 0; color:#334155; font-size:24px;">Modul Belum Tersedia</h2><p style="margin:0; font-size:15px;">URL Aplikasi belum diatur.</p></div>`;
                     }
                 } else {
                     preloadIframe(frameId);
-                    if (targetFrame.dataset.loading === 'true') {
-                        loader.style.display = 'block';
-                    } else {
-                        loader.style.display = 'none';
-                    }
+                    if (targetFrame.dataset.loading === 'true') loader.style.display = 'block';
+                    else loader.style.display = 'none';
                 }
                 targetFrame.classList.add('active');
             }
@@ -743,7 +727,6 @@
 
         function triggerMenuClick(id) { document.getElementById(id).click(); }
         function toggleHeader() { document.body.classList.toggle('header-hidden'); }
-        
         function toggleMobileMenu() { 
             const nav = document.getElementById('dynamic-nav-links');
             const toggle = document.querySelector('.menu-toggle');
@@ -757,20 +740,17 @@
             if (toggle) toggle.classList.remove('active'); 
         }
 
-        // --- SLIDER LOGIC (ANIMATION) ---
+        // --- SLIDER LOGIC ---
         let slideIndex = 0; let slideTimer;
         function showSlides() {
             let slides = document.getElementsByClassName("slide");
             let dots = document.getElementsByClassName("dot");
             if (slides.length === 0 || slides.length === 1 && slides[0].classList.contains('skeleton-slide')) return;
-            
             for (let i = 0; i < slides.length; i++) slides[i].style.display = "none";  
             slideIndex++; if (slideIndex > slides.length) slideIndex = 1;
             for (let i = 0; i < dots.length; i++) dots[i].className = dots[i].className.replace(" active", "");
-            
             slides[slideIndex-1].style.display = "block";  
             if(dots[slideIndex-1]) dots[slideIndex-1].className += " active";
-            
             clearTimeout(slideTimer);
             slideTimer = setTimeout(showSlides, 5000); 
         }
@@ -783,7 +763,6 @@
 
         function openOverlayPanel() {
             closeMobileMenu();
-            
             const links = document.querySelectorAll('.nav-links a');
             links.forEach(link => link.classList.remove('active'));
             if(document.getElementById('btn-panel')) document.getElementById('btn-panel').classList.add('active');
@@ -807,9 +786,7 @@
             
             const links = document.querySelectorAll('.nav-links a');
             let isPanelActive = false;
-            links.forEach(link => {
-               if(link.id === 'btn-panel' && link.classList.contains('active')) isPanelActive = true;
-            });
+            links.forEach(link => { if(link.id === 'btn-panel' && link.classList.contains('active')) isPanelActive = true; });
             
             if (isPanelActive) {
                 links.forEach(link => link.classList.remove('active'));
@@ -820,7 +797,6 @@
         function switchTab(tabName) {
             document.getElementById('viewKategori').style.display = tabName === 'kategori' ? 'block' : 'none';
             document.getElementById('viewSlider').style.display = tabName === 'slider' ? 'block' : 'none';
-            
             document.getElementById('tabBtnKategori').classList.toggle('active', tabName === 'kategori');
             document.getElementById('tabBtnSlider').classList.toggle('active', tabName === 'slider');
         }
@@ -843,13 +819,9 @@
             if(!u || !p || !c) { msg.innerText = "Isi semua form terlebih dahulu!"; msg.style.display = 'block'; return; }
             if(parseInt(c) !== captchaResult) { msg.innerText = "Captcha Salah! Hitung dengan benar."; msg.style.display = 'block'; generateCaptcha(); return; }
 
-            btn.innerText = "Memverifikasi...";
-            btn.style.opacity = '0.7';
-            
+            btn.innerText = "Memverifikasi..."; btn.style.opacity = '0.7';
             google.script.run.withSuccessHandler(function(res) {
-                btn.innerText = "Masuk ke Panel";
-                btn.style.opacity = '1';
-                
+                btn.innerText = "Masuk ke Panel"; btn.style.opacity = '1';
                 if(res.success) {
                     isLoggedIn = true;
                     msg.style.display = 'none';
@@ -865,36 +837,29 @@
 
         function logout() { 
             isLoggedIn = false; 
-            
             document.getElementById('loginUser').value = '';
             document.getElementById('loginPass').value = '';
             document.getElementById('loginCaptcha').value = '';
             document.getElementById('loginMsg').style.display = 'none';
-
             goHome(); 
         }
 
         // ==========================================
-        // CRUD KATEGORI
+        // CRUD KATEGORI & SLIDER
         // ==========================================
         function renderCatTable() {
             const tbody = document.getElementById('catTableBody');
             let html = '';
             appData.categories.forEach(cat => {
                 const icon = cat.icon || 'grip';
-                html += `
-                    <tr>
-                        <td style="text-align:center;">
-                            <span class="icon-cell"><i data-lucide="${icon}"></i></span><br>
-                            <small style="color:var(--text-muted); font-size:11px;">${icon}</small>
-                        </td>
+                html += `<tr>
+                        <td style="text-align:center;"><span class="icon-cell"><i data-lucide="${icon}"></i></span><br><small style="color:var(--text-muted); font-size:11px;">${icon}</small></td>
                         <td><strong>${cat.nama}</strong></td>
                         <td style="color:#64748b; max-width:280px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${cat.url}">${cat.url}</td>
                         <td style="text-align:center;">
                             <button class="btn-edit" onclick="openCatModal('${cat.id}', '${cat.nama}', '${icon}', '${cat.url}')">Edit</button>
                             <button class="btn-delete" onclick="deleteCat('${cat.id}')">Hapus</button>
-                        </td>
-                    </tr>`;
+                        </td></tr>`;
             });
             tbody.innerHTML = html;
             renderIcons(); 
@@ -902,10 +867,8 @@
 
         function openCatModal(id = '', nama = '', icon = '', url = '') {
             document.getElementById('catModalTitle').innerText = id ? 'Edit Menu' : 'Tambah Menu Baru';
-            document.getElementById('catId').value = id;
-            document.getElementById('catName').value = nama;
-            document.getElementById('catIcon').value = icon;
-            document.getElementById('catUrl').value = url;
+            document.getElementById('catId').value = id; document.getElementById('catName').value = nama;
+            document.getElementById('catIcon').value = icon; document.getElementById('catUrl').value = url;
             document.getElementById('catModalMsg').style.display = 'none';
             document.getElementById('catModal').classList.add('active');
         }
@@ -913,71 +876,41 @@
         function closeCatModal() { document.getElementById('catModal').classList.remove('active'); }
 
         function saveCategory() {
-            const id = document.getElementById('catId').value;
-            const nama = document.getElementById('catName').value;
-            const icon = document.getElementById('catIcon').value;
-            const url = document.getElementById('catUrl').value;
-            const msg = document.getElementById('catModalMsg');
-            const btn = document.getElementById('btnSaveCat');
-
+            const id = document.getElementById('catId').value; const nama = document.getElementById('catName').value;
+            const icon = document.getElementById('catIcon').value; const url = document.getElementById('catUrl').value;
+            const msg = document.getElementById('catModalMsg'); const btn = document.getElementById('btnSaveCat');
             if(!nama) { msg.innerText = "Nama kategori wajib diisi!"; msg.style.display = 'block'; return; }
-
-            btn.innerText = "Menyimpan...";
-            btn.style.opacity = '0.7';
+            btn.innerText = "Menyimpan..."; btn.style.opacity = '0.7';
             
             google.script.run.withSuccessHandler(function(res) {
-                btn.innerText = "Simpan";
-                btn.style.opacity = '1';
-                msg.innerText = res.message;
-                msg.style.display = 'block';
-                
-                setTimeout(() => { 
-                    closeCatModal(); 
-                    refreshDataWrapper();
-                }, 800);
+                btn.innerText = "Simpan"; btn.style.opacity = '1';
+                msg.innerText = res.message; msg.style.display = 'block';
+                setTimeout(() => { closeCatModal(); refreshDataWrapper(); }, 800);
             }).saveCategory(id, nama, icon, url);
         }
 
-        function deleteCat(id) {
-            if(confirm("Yakin ingin menghapus menu ini?")) {
-                google.script.run.withSuccessHandler(function(res) {
-                    refreshDataWrapper();
-                }).deleteCategory(id);
-            }
-        }
+        function deleteCat(id) { if(confirm("Yakin ingin menghapus menu ini?")) { google.script.run.withSuccessHandler(function(res) { refreshDataWrapper(); }).deleteCategory(id); } }
 
-        // ==========================================
-        // CRUD SLIDER
-        // ==========================================
         function renderSliderTable() {
             const tbody = document.getElementById('sliderTableBody');
             let html = '';
             appData.sliders.forEach(s => {
-                html += `
-                    <tr>
+                html += `<tr>
                         <td><img src="${s.image}" class="img-preview" alt="Preview"></td>
-                        <td>
-                            <strong style="color:var(--text-main)">${s.title}</strong><br>
-                            <span style="color:var(--text-muted); font-size:12px;">${s.subtitle}</span>
-                        </td>
+                        <td><strong style="color:var(--text-main)">${s.title}</strong><br><span style="color:var(--text-muted); font-size:12px;">${s.subtitle}</span></td>
                         <td style="text-align:center;">
                             <button class="btn-edit" onclick="openSliderModal('${s.id}', '${s.image}', '${s.title}', '${s.subtitle}')">Edit</button>
                             <button class="btn-delete" onclick="deleteSliderData('${s.id}')">Hapus</button>
-                        </td>
-                    </tr>`;
+                        </td></tr>`;
             });
-            if(appData.sliders.length === 0) {
-                html = `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Belum ada slider yang ditambahkan.</td></tr>`;
-            }
+            if(appData.sliders.length === 0) html = `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Belum ada slider yang ditambahkan.</td></tr>`;
             tbody.innerHTML = html;
         }
 
         function openSliderModal(id = '', image = '', title = '', subtitle = '') {
             document.getElementById('sliderModalTitle').innerText = id ? 'Edit Slider' : 'Tambah Slider Baru';
-            document.getElementById('sliderId').value = id;
-            document.getElementById('sliderImage').value = image;
-            document.getElementById('sliderTitle').value = title;
-            document.getElementById('sliderSubtitle').value = subtitle;
+            document.getElementById('sliderId').value = id; document.getElementById('sliderImage').value = image;
+            document.getElementById('sliderTitle').value = title; document.getElementById('sliderSubtitle').value = subtitle;
             document.getElementById('sliderModalMsg').style.display = 'none';
             document.getElementById('sliderModal').classList.add('active');
         }
@@ -985,40 +918,21 @@
         function closeSliderModal() { document.getElementById('sliderModal').classList.remove('active'); }
 
         function saveSlider() {
-            const id = document.getElementById('sliderId').value;
-            const img = document.getElementById('sliderImage').value;
-            const title = document.getElementById('sliderTitle').value;
-            const sub = document.getElementById('sliderSubtitle').value;
-            const msg = document.getElementById('sliderModalMsg');
-            const btn = document.getElementById('btnSaveSlider');
-
+            const id = document.getElementById('sliderId').value; const img = document.getElementById('sliderImage').value;
+            const title = document.getElementById('sliderTitle').value; const sub = document.getElementById('sliderSubtitle').value;
+            const msg = document.getElementById('sliderModalMsg'); const btn = document.getElementById('btnSaveSlider');
             if(!img || !title) { msg.innerText = "URL Gambar dan Judul wajib diisi!"; msg.style.display = 'block'; return; }
-
-            btn.innerText = "Menyimpan...";
-            btn.style.opacity = '0.7';
+            btn.innerText = "Menyimpan..."; btn.style.opacity = '0.7';
             
             google.script.run.withSuccessHandler(function(res) {
-                btn.innerText = "Simpan";
-                btn.style.opacity = '1';
-                msg.innerText = res.message;
-                msg.style.display = 'block';
-                
-                setTimeout(() => { 
-                    closeSliderModal(); 
-                    refreshDataWrapper();
-                }, 800);
+                btn.innerText = "Simpan"; btn.style.opacity = '1';
+                msg.innerText = res.message; msg.style.display = 'block';
+                setTimeout(() => { closeSliderModal(); refreshDataWrapper(); }, 800);
             }).saveSlider(id, img, title, sub);
         }
 
-        function deleteSliderData(id) {
-            if(confirm("Yakin ingin menghapus slider ini?")) {
-                google.script.run.withSuccessHandler(function(res) {
-                    refreshDataWrapper();
-                }).deleteSlider(id);
-            }
-        }
+        function deleteSliderData(id) { if(confirm("Yakin ingin menghapus slider ini?")) { google.script.run.withSuccessHandler(function(res) { refreshDataWrapper(); }).deleteSlider(id); } }
 
-        // Wrapper refresh data saat ada perubahan CRUD
         function refreshDataWrapper() {
             document.getElementById('dynamic-grid').style.display = 'none';
             document.getElementById('skeleton-grid').style.display = 'grid';
